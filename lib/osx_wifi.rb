@@ -1,5 +1,2 @@
-require "osx_wifi/version"
-
-module OsxWifi
-  # Your code goes here...
-end
+require 'osx_wifi/version'
+require 'osx_wifi/signal'

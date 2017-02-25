@@ -1,0 +1,9 @@
+#!/bin/ruby
+
+require 'osx_wifi'
+
+# Trap Ctrl+C
+Signal.trap('INT') { abort }
+
+signal = OsxWifi::Signal.new
+puts signal.bars

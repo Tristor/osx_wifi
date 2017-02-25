@@ -1,11 +1,14 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe OsxWifi do
-  it "has a version number" do
+  it 'has a version number' do
     expect(OsxWifi::VERSION).not_to be nil
   end
 
-  it "does something useful" do
-    expect(false).to eq(true)
+  it '#calculate_bars' do
+    signal = OsxWifi::Signal.new
+    expect(signal.bars).to be
+    expect(signal.bars).to be >= 0
+    expect(signal.bars).to be <= 4
   end
 end
