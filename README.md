@@ -1,39 +1,48 @@
 # OsxWifi
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/osx_wifi`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
+This is a hacky little gem to output a "bar count" which is the relative strength of a WiFi signal.  It only works on OSX as it shells out to the `airport` utility.
 ## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'osx_wifi'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
 
     $ gem install osx_wifi
 
 ## Usage
 
-TODO: Write usage instructions here
+Simply run it, and it will output a "bar count" between `0` and `4` based on your SNR.
 
-## Development
+## powerlevel9k script
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+Put this is in your `.zshrc` to make use of this.  Needs an installed font patched with Font Awesome for the fa-wifi icon and the installation of this gem so that `osx_wifi` is in your PATH.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```
+POWERLEVEL9K_CUSTOM_WIFI_SIGNAL="zsh_wifi_signal"
+POWERLEVEL9K_CUSTOM_WIFI_SIGNAL_BACKGROUND="blue"
+POWERLEVEL9K_CUSTOM_WIFI_SIGNAL_FOREGROUND="yellow"
+
+# This function requires installing osx_wifi from https://github.com/tristor/osx_wifi
+zsh_wifi_signal(){
+        local output=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport -I) 
+        local airport=$(echo $output | grep 'AirPort' | awk -F': ' '{print $2}')
+
+        if [ "$airport" = "Off" ]; then
+                local color='%F{red}'
+                echo -n "%{$color%}Wifi Off"
+        else
+                local ssid=$(echo $output | grep ' SSID' | awk -F': ' '{print $2}')
+                local bars=$(osx_wifi)
+                local color='%F{yellow}'
+
+                [[ $bars -ge 3 ]] && color='%F{green}'
+                [[ $bars -eq 2 ]] && color='%F{yellow}'
+                [[ $bars -lt 2 ]] && color='%F{red}'
+
+                echo -n "%{$color%} \uf1eb $ssid $bars%{%f%}" # relies on Nerd Fonts
+        fi
+}
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/osx_wifi.
-
+Bug reports and pull requests are welcome on GitHub at https://github.com/tristor/osx_wifi/
 
 ## License
 
