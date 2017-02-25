@@ -40,6 +40,8 @@ zsh_wifi_signal(){
 }
 ```
 
+When https://github.com/FortAwesome/Font-Awesome/issues/7856 is fixed this can be modified to instead output a color-coded bar count WiFi icon, instead of the numerical output.
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/tristor/osx_wifi/
