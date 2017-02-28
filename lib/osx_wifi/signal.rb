@@ -5,8 +5,12 @@ module OsxWifi
   class Signal
     attr_reader :bars
 
-    def initialize
-      @bars = calculate_bars
+    def initialize(options = {})
+      if options[:unicode_output]
+        @bars = unicode_bars.encode('utf-8')
+      else
+        @bars = calculate_bars
+      end
     end
 
     def airport_stats
@@ -41,6 +45,23 @@ module OsxWifi
           4
         elsif @snr < 10
           0
+        end
+      end
+    end
+
+    def unicode_bars
+      case snr
+      when 25..40
+        "_\u033F"
+      when 15..25
+        "_\u0305"
+      when 10..15
+        "_"
+      else
+        if @snr > 40
+          "_\u0305\u033F"
+        elsif @snr < 10
+          ""
         end
       end
     end

@@ -1,9 +1,14 @@
 #!/usr/bin/env ruby
-
+require 'optparse'
 require 'osx_wifi'
 
 # Trap Ctrl+C
 Signal.trap('INT') { abort }
 
-signal = OsxWifi::Signal.new
+options = { unicode_output: false }
+OptionParser.new do |opts|
+  opts.on("-u", "--unicode", "Output Unicode characters instead of numbers") { options[:unicode_output] = true }
+end.parse!
+
+signal = OsxWifi::Signal.new(options)
 puts signal.bars

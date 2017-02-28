@@ -6,9 +6,14 @@ describe OsxWifi do
   end
 
   it '#calculate_bars' do
-    signal = OsxWifi::Signal.new
+    signal = OsxWifi::Signal.new(unicode_output: false)
     expect(signal.bars).to be
     expect(signal.bars).to be >= 0
     expect(signal.bars).to be <= 4
+  end
+
+  it '#unicode_bars' do
+    signal = OsxWifi::Signal.new(unicode_output: true)
+    expect(signal.bars).to be
   end
 end
