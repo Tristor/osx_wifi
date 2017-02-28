@@ -56,12 +56,12 @@ module OsxWifi
       when 15..25
         "_\u0305"
       when 10..15
-        "_"
+        '_'
       else
         if @snr > 40
           "_\u0305\u033F"
         elsif @snr < 10
-          ""
+          ''
         end
       end
     end

@@ -7,7 +7,7 @@ Signal.trap('INT') { abort }
 
 options = { unicode_output: false }
 OptionParser.new do |opts|
-  opts.on("-u", "--unicode", "Output Unicode characters instead of numbers") { options[:unicode_output] = true }
+  opts.on('-u', '--unicode', 'Output Unicode characters instead of numbers') { options[:unicode_output] = true }
 end.parse!
 
 signal = OsxWifi::Signal.new(options)
